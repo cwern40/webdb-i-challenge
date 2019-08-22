@@ -65,4 +65,19 @@ server.put('/:id', (req, res) => {
         })
 })
 
+server.delete('/:id', (req, res) => {
+    const { id } = req.params
+
+    db('accounts').where({ id }).del()
+        .then(remove => {
+            res.json(remove)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                message: 'unable to delete account'
+            })
+        })
+})
+
 module.exports = server;
