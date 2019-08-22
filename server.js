@@ -24,7 +24,7 @@ server.get('/:id', (req, res) => {
 
     db('accounts').where({ id })
         .then(account => {
-            res.json(account)
+            res.json(account[0])
         })
         .catch(err => {
             console.log(err)
@@ -45,6 +45,22 @@ server.post('/', (req, res) => {
             console.log(err)
             res.status(500).json({
                 message: "Unable to add account"
+            })
+        })
+})
+
+server.put('/:id', (req, res) => {
+    const { id } = req.params
+    const updateData = req.body
+    
+    db('accounts').where({ id }).update(updateData)
+        .then(update => {
+            res.json(update)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                message: 'unable to update account'
             })
         })
 })
